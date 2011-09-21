@@ -1,0 +1,238 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Icegem, Extensions library for VMWare vFabric GemFire
+  
+  Copyright (c) 2010-2011, Grid Dynamics Consulting Services Inc. or third-party  
+  contributors as indicated by the @author tags or express copyright attribution
+  statements applied by the authors.  
+  
+  This copyrighted material is made available to anyone wishing to use, modify,
+  copy, or redistribute it subject to the terms and conditions of the GNU
+  Lesser General Public License v3, as published by the Free Software Foundation.
+  
+  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+  AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+  IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+  DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE
+  FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
+  DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
+  SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
+  CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
+  OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+  
+  You should have received a copy of the GNU Lesser General Public License v3
+  along with this distribution; if not, write to:
+  Free Software Foundation, Inc.
+  51 Franklin Street, Fifth Floor
+  Boston, MA  02110-1301  USA
+-->
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>com.googlecode.icegem</groupId>
+	<artifactId>icegem-cache-utils</artifactId>
+	<name>Cache Utilities</name>
+	<version>0.8.7-SNAPSHOT</version>
+
+	<parent>
+		<artifactId>icegem-root</artifactId>
+		<groupId>com.googlecode.icegem</groupId>
+		<version>0.8.7-SNAPSHOT</version>
+	</parent>
+
+	<properties>
+		<commons-cli.version>1.2</commons-cli.version>
+	</properties>
+
+	<dependencies>
+
+		<dependency>
+			<groupId>com.googlecode.icegem</groupId>
+			<artifactId>icegem-core</artifactId>
+			<version>0.8.7-SNAPSHOT</version>
+		</dependency>
+
+		<dependency>
+			<groupId>javax.mail</groupId>
+			<artifactId>mail</artifactId>
+			<version>1.4.1</version>
+			<type>jar</type>
+			<scope>compile</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-jdk14</artifactId>
+			<version>${slf4j.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>commons-cli</groupId>
+			<artifactId>commons-cli</artifactId>
+			<version>${commons-cli.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>log4j</groupId>
+			<artifactId>log4j</artifactId>
+		</dependency>
+
+		<!-- TEST -->
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>4.8.2</version>
+			<scope>test</scope>
+		</dependency>
+	</dependencies>
+
+	<issueManagement>
+		<system>Google Code</system>
+		<url>http://code.google.com/p/icegem/issues/list</url>
+	</issueManagement>
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<configuration>
+					<source>1.5</source>
+					<target>1.5</target>
+				</configuration>
+			</plugin>
+
+			<plugin>
+				<artifactId>maven-assembly-plugin</artifactId>
+				<configuration>
+					<descriptors>
+						<descriptor>src/main/assembly/src.xml</descriptor>
+					</descriptors>
+					<archive>
+						<manifest>
+							<mainClass>com.googlecode.icegem.cacheutils.Launcher</mainClass>
+						</manifest>
+					</archive>
+				</configuration>
+			</plugin>
+
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-antrun-plugin</artifactId>
+				<version>1.6</version>
+				<executions>
+					<execution>
+						<id>start-gemfire-test-environment</id>
+						<phase>pre-integration-test</phase>
+
+						<configuration>
+							<target>
+								<ant antfile="${project.build.directory}/testEnvironment.xml">
+									<target name="start-gemfire-test-environment" />
+								</ant>
+							</target>
+						</configuration>
+						<goals>
+							<goal>run</goal>
+						</goals>
+					</execution>
+
+					<execution>
+						<id>stop-gemfire-test-environment</id>
+						<phase>post-integration-test</phase>
+
+						<configuration>
+							<target>
+								<ant antfile="${project.build.directory}/testEnvironment.xml">
+									<target name="stop-gemfire-test-environment" />
+								</ant>
+							</target>
+						</configuration>
+						<goals>
+							<goal>run</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+
+			<plugin>
+				<artifactId>maven-failsafe-plugin</artifactId>
+				<configuration>
+					<includes>
+						<include>**/itest/**</include>
+					</includes>
+				</configuration>
+				<executions>
+					<execution>
+						<id>failsafe-integration-test</id>
+						<phase>integration-test</phase>
+						<goals>
+							<goal>integration-test</goal>
+						</goals>
+					</execution>
+					<execution>
+						<id>failsafe-verify-test</id>
+						<phase>verify</phase>
+						<goals>
+							<goal>verify</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-surefire-plugin</artifactId>
+				<configuration>
+					<skip>true</skip>
+				</configuration>
+				<executions>
+					<execution>
+						<id>surefire-test</id>
+						<phase>test</phase>
+						<goals>
+							<goal>test</goal>
+						</goals>
+						<configuration>
+							<skip>false</skip>
+							<excludes>
+								<exclude>**/itest/**</exclude>
+							</excludes>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
+
+		<resources>
+			<!--copy scripts with filtering -->
+			<resource>
+				<directory>${project.basedir}/../icegem-common-resources/test/scripts</directory>
+				<filtering>true</filtering>
+				<targetPath>${project.build.directory}</targetPath>
+			</resource>
+			<!--copy ant build file without filtering -->
+			<resource>
+				<directory>${project.basedir}/../icegem-common-resources/test</directory>
+				<filtering>false</filtering>
+				<includes>
+					<include>testEnvironment.xml</include>
+				</includes>
+				<targetPath>${project.build.directory}</targetPath>
+			</resource>
+			<!--copy default resources with filtering -->
+			<resource>
+				<directory>${project.build.sourceDirectory}/../resources</directory>
+				<filtering>true</filtering>
+			</resource>
+		</resources>
+		<testResources>
+			<!--copy default test resources with filtering -->
+			<testResource>
+				<directory>${project.build.testSourceDirectory}/../resources</directory>
+				<filtering>true</filtering>
+			</testResource>
+		</testResources>
+	</build>
+</project>

@@ -1,0 +1,1 @@
+%GEMFIRE%\bin\agent stop -dir=agent

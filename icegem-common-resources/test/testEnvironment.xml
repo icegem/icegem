@@ -1,0 +1,77 @@
+<?xml version="1.0"?>
+<project name="star-stop-gemfire-test-environment">
+    <property name="locator.base.directory" value="${project.build.directory}/locator"/>
+    <property name="agent.base.directory" value="${project.build.directory}/agent"/>
+    <property name="locator.port" value="${locator.port}"/>
+
+    <!--Set of targets for starting GemFire test environment-->
+    <target name="start-gemfire-test-environment" depends="start-locator, start-agent">
+    </target>
+
+    <target name="start-locator" depends="copy-locator-properties-file">
+        <exec osfamily="windows" dir="${project.build.directory}"
+              executable="${project.build.directory}/start-locator.bat" failonerror="true"/>
+        <exec osfamily="mac" dir="${project.build.directory}" executable="bash" failonerror="true">
+            <arg file="${project.build.directory}/start-locator.sh"/>
+        </exec>
+        <exec osfamily="unix" dir="${project.build.directory}" executable="bash" failonerror="true">
+            <arg file="${project.build.directory}/start-locator.sh"/>
+        </exec>
+        <available file="${locator.base.directory}/locator${locator.port}state.dat" property="isLocatorStarted" />
+        <fail unless="isLocatorStarted" message="Locator has not been started. Check that GemFire was installed locally and environment variable GEMFIRE is available." />
+    </target>
+
+    <target name="start-agent" depends="copy-agent-properties-file">
+        <exec osfamily="windows" dir="${project.build.directory}"
+              executable="${project.build.directory}/start-agent.bat"/>
+        <exec osfamily="mac" dir="${project.build.directory}" executable="bash">
+            <arg file="${project.build.directory}/start-agent.sh"/>
+        </exec>
+        <exec osfamily="unix" dir="${project.build.directory}" executable="bash">
+            <arg file="${project.build.directory}/start-agent.sh"/>
+        </exec>
+    </target>
+
+    <target name="copy-agent-properties-file" depends="create-base-directories">
+        <copy file="${project.build.testOutputDirectory}/agent.properties" todir="${agent.base.directory}"/>
+    </target>
+
+    <target name="copy-locator-properties-file" depends="create-base-directories">
+        <copy file="${project.build.testOutputDirectory}/locator.properties" todir="${locator.base.directory}"/>
+    </target>
+
+    <target name="create-base-directories">
+        <mkdir dir="${locator.base.directory}"/>
+        <mkdir dir="${agent.base.directory}"/>
+    </target>
+
+    <!--Set of targets for stopping GemFire test environment-->
+    <target name="stop-gemfire-test-environment" depends="stop-agent, stop-locator">
+    </target>
+
+    <target name="stop-locator" depends="copy-locator-properties-file">
+        <exec osfamily="windows" dir="${project.build.directory}"
+              executable="${project.build.directory}/stop-locator.bat"/>
+        <exec osfamily="mac" dir="${project.build.directory}" executable="bash">
+            <arg file="${project.build.directory}/stop-locator.sh"/>
+        </exec>
+        <exec osfamily="unix" dir="${project.build.directory}" executable="bash">
+            <arg file="${project.build.directory}/stop-locator.sh"/>
+        </exec>
+        <delete file="${locator.base.directory}/locator${locator.port}state.dat"/>
+        <delete>
+            <fileset dir="${project.build.directory}/../" includes="locator*state.dat"/>
+        </delete>
+    </target>
+
+    <target name="stop-agent" depends="copy-agent-properties-file">
+        <exec osfamily="windows" dir="${project.build.directory}"
+              executable="${project.build.directory}/stop-agent.bat"/>
+        <exec osfamily="mac" dir="${project.build.directory}" executable="bash">
+            <arg file="${project.build.directory}/stop-agent.sh"/>
+        </exec>
+        <exec osfamily="unix" dir="${project.build.directory}" executable="bash">
+            <arg file="${project.build.directory}/stop-agent.sh"/>
+        </exec>
+    </target>
+</project>

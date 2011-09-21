@@ -33,12 +33,12 @@
 	<groupId>com.googlecode.icegem</groupId>
 	<artifactId>icegem-cache-utils</artifactId>
 	<name>Cache Utilities</name>
-	<version>0.8.7-SNAPSHOT</version>
+	<version>0.8.7</version>
 
 	<parent>
 		<artifactId>icegem-root</artifactId>
 		<groupId>com.googlecode.icegem</groupId>
-		<version>0.8.7-SNAPSHOT</version>
+		<version>0.8.7</version>
 	</parent>
 
 	<properties>
@@ -50,7 +50,7 @@
 		<dependency>
 			<groupId>com.googlecode.icegem</groupId>
 			<artifactId>icegem-core</artifactId>
-			<version>0.8.7-SNAPSHOT</version>
+			<version>0.8.7</version>
 		</dependency>
 
 		<dependency>

@@ -32,20 +32,20 @@
 	<groupId>com.googlecode.icegem</groupId>
 	<artifactId>icegem-performance</artifactId>
 	<name>Performance</name>
-	<version>0.8.7-SNAPSHOT</version>
+	<version>0.8.7</version>
 	<packaging>jar</packaging>
 
 	<parent>
 		<groupId>com.googlecode.icegem</groupId>
 		<artifactId>icegem-root</artifactId>
-		<version>0.8.7-SNAPSHOT</version>
+		<version>0.8.7</version>
 	</parent>
 
 	<dependencies>
 		<dependency>
 			<groupId>com.googlecode.icegem</groupId>
 			<artifactId>icegem-core</artifactId>
-			<version>0.8.7-SNAPSHOT</version>
+			<version>0.8.7</version>
 		</dependency>
 
 		<dependency>

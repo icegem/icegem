@@ -53,9 +53,9 @@
     </licenses>
 
     <scm>
-        <connection>scm:svn:http://icegem.googlecode.com/svn/trunk</connection>
-        <developerConnection>scm:svn:https://icegem.googlecode.com/svn/trunk</developerConnection>
-        <url>http://code.google.com/p/icegem/source/browse/trunk</url>
+        <connection>scm:git:git://github.com/icegem/icegem.git</connection>
+        <developerConnection>scm:git:git@github.com:icegem/icegem.git</developerConnection>
+        <url>git@github.com:icegem/icegem.git</url>
     </scm>
 
     <developers>

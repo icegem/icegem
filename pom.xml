@@ -53,7 +53,7 @@
     </licenses>
 
     <scm>
-        <connection>scm:git:git://github.com/icegem/icegem.git</connection>
+        <connection>scm:git:git:github.com/icegem/icegem.git</connection>
         <developerConnection>scm:git:git@github.com:icegem/icegem.git</developerConnection>
         <url>scm:git:git@github.com:icegem/icegem.git</url>
     </scm>

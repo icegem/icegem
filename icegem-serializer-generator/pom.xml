@@ -30,14 +30,14 @@
     <parent>
         <artifactId>icegem-root</artifactId>
         <groupId>com.googlecode.icegem</groupId>
-        <version>0.8.8-SNAPSHOT</version>
+        <version>0.8.8</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.googlecode.icegem</groupId>
     <artifactId>icegem-serializer-generator</artifactId>
     <packaging>maven-plugin</packaging>
     <name>Serializer generation mojo</name>
-    <version>0.8.8-SNAPSHOT</version>
+    <version>0.8.8</version>
     <url>http://maven.apache.org</url>
     <dependencies>
         <dependency>
@@ -54,7 +54,7 @@
         <dependency>
             <groupId>com.googlecode.icegem</groupId>
             <artifactId>icegem-core</artifactId>
-            <version>0.8.8-SNAPSHOT</version>
+            <version>0.8.8</version>
         </dependency>
          <!--<dependency>
             <groupId>org.slf4j</groupId>

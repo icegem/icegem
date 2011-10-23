@@ -153,7 +153,15 @@ public class CacheUtils {
 		return (Integer) rc.getResult();
 	}
 
-	public static <K, V>  void removeAll(Region<K, V> region, Set<K> keys) {
+	/**
+	 * Removes several entries from region in a single hop. On partitioned
+	 * region execution is done simultaneously on all partitions.
+	 * 
+	 * @param <K> key type.
+	 * @param region the region to remove entries.
+	 * @param keys the keys of entries to remove.
+	 */
+	public static <K>  void removeAll(Region<K, ?> region, Set<K> keys) {
 		Function function = new RemoveAllFunction();
 
 		FunctionService.registerFunction(function);

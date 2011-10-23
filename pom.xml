@@ -53,9 +53,9 @@
     </licenses>
 
     <scm>
-        <connection>scm:git:git:github.com/icegem/icegem.git</connection>
+        <connection>scm:git:git://github.com/icegem/icegem.git</connection>
         <developerConnection>scm:git:git@github.com:icegem/icegem.git</developerConnection>
-        <url>scm:git:git@github.com:icegem/icegem.git</url>
+        <url>git@github.com:icegem/icegem.git</url>
     </scm>
 
     <developers>
@@ -296,16 +296,9 @@
     </repositories>
 
     <build>
+        <pluginManagement>
             <plugins>
-	          <plugin>
-	        	  <groupId>org.apache.maven.plugins</groupId>
-		          <artifactId>maven-release-plugin</artifactId>
-			  <version>2.1</version>
-		   </plugin>
-	    </plugins>
-	    <pluginManagement>
-	    <plugins>
-	    	<plugin>
+                <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-compiler-plugin</artifactId>
                     <configuration>

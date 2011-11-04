@@ -31,7 +31,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.googlecode.icegem</groupId>
     <artifactId>icegem-root</artifactId>
-    <version>0.8.9-SNAPSHOT</version>
+    <version>0.8.9</version>
     <packaging>pom</packaging>
 
     <parent>

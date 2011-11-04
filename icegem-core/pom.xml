@@ -32,13 +32,13 @@
     <groupId>com.googlecode.icegem</groupId>
     <artifactId>icegem-core</artifactId>
     <name>Core</name>
-    <version>0.8.9-SNAPSHOT</version>
+    <version>0.8.9</version>
     <packaging>jar</packaging>
 
     <parent>
         <groupId>com.googlecode.icegem</groupId>
         <artifactId>icegem-root</artifactId>
-        <version>0.8.9-SNAPSHOT</version>
+        <version>0.8.9</version>
     </parent>
 
     <dependencies>

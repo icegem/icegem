@@ -33,16 +33,12 @@ import java.util.Set;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.gemstone.gemfire.cache.Cache;
-import com.gemstone.gemfire.cache.CacheFactory;
 import com.gemstone.gemfire.cache.EntryNotFoundException;
 import com.gemstone.gemfire.cache.Region;
 import com.gemstone.gemfire.cache.execute.FunctionAdapter;
 import com.gemstone.gemfire.cache.execute.FunctionContext;
 import com.gemstone.gemfire.cache.execute.RegionFunctionContext;
 import com.gemstone.gemfire.cache.execute.ResultSender;
-import com.gemstone.gemfire.cache.partition.PartitionRegionHelper;
-import com.gemstone.gemfire.distributed.DistributedMember;
 
 /**
  * Function for clearing regions of different types.
@@ -50,35 +46,34 @@ import com.gemstone.gemfire.distributed.DistributedMember;
  * @see com.googlecode.icegem.utils.CacheUtils for more details.
  * 
  * @author Andrey Stepanov aka standy
+ * @author Alexey Kharlamov <aharlamov@gmail.com>
  */
 public class RemoveAllFunction extends FunctionAdapter {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	
 	private final static String FUNCTION_ID = RemoveAllFunction.class.getName();
-	private final static Logger LOG = LoggerFactory.getLogger(RemoveAllFunction.class);
+	private final static Logger LOG = LoggerFactory
+			.getLogger(RemoveAllFunction.class);
 
-	@SuppressWarnings({ "ThrowableInstanceNeverThrown" })
 	@Override
 	public void execute(FunctionContext ctx) {
-		RegionFunctionContext rctx = (RegionFunctionContext) ctx;
 		ResultSender<Boolean> rs = ctx.getResultSender();
+		RegionFunctionContext rctx = (RegionFunctionContext) ctx;
 
 		Set<?> keys = rctx.getFilter();
-		String regionName = (String) ctx.getArguments();
-
-		Cache cache = CacheFactory.getAnyInstance();
-		Region<Object, Object> region = cache.getRegion(regionName);
+		Region<?,?> region = rctx.getDataSet();
 
 		for (Object key : keys) {
-			DistributedMember primaryMemberForKey = PartitionRegionHelper
-					.getPrimaryMemberForKey(region, key);
-			if (primaryMemberForKey == cache.getDistributedSystem()
-					.getDistributedMember()) {
-				try {
-					region.destroy(key);
-				} catch(EntryNotFoundException e) {
-					LOG.warn("Entry {} not found", key);
-				}
+			try {
+				region.destroy(key);
+			} catch (EntryNotFoundException e) {
+				LOG.warn("Entry {} not found", key);
 			}
 		}
+
 		rs.lastResult(true);
 	}
 

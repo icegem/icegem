@@ -140,7 +140,7 @@ public class CacheUtilsTest extends AbstractIntegrationTest {
 	}
 
 	@Test
-	public void testRemoveAll() {
+	public void testRemoveAllonPR() {
 		List<Integer> keysToRemove1 = new ArrayList<Integer>();
 		List<Integer> keysToRemove2 = new ArrayList<Integer>();
 		for (int i = 0; i < 100; i++) {
@@ -165,5 +165,39 @@ public class CacheUtilsTest extends AbstractIntegrationTest {
 		CacheUtils.removeAll(partitionedRegion, new HashSet(keysToRemove2));
 
 		assertEquals(0, CacheUtils.getRegionSize(partitionedRegion));
+	}
+	
+	@Test(expected=NullPointerException.class)
+	public void testRemoveAllNPE() {
+		CacheUtils.removeAll(partitionedRegion, null);
+	}
+
+
+	@Test
+	public void testRemoveAllOnReplicated() {
+		List<Integer> keysToRemove1 = new ArrayList<Integer>();
+		List<Integer> keysToRemove2 = new ArrayList<Integer>();
+		for (int i = 0; i < 100; i++) {
+			if (i < 50) {
+				keysToRemove1.add(i);
+			} else {
+				keysToRemove2.add(i);
+			}
+			replicatedRegion.put(i, "Value");
+		}
+		
+		assertEquals(100, CacheUtils.getRegionSize(replicatedRegion));
+		
+		CacheUtils.removeAll(replicatedRegion, new HashSet(Arrays.asList(new Integer[] { 102, 100, 101, 103})));
+
+		assertEquals(100, CacheUtils.getRegionSize(replicatedRegion));
+		
+		CacheUtils.removeAll(replicatedRegion, new HashSet(keysToRemove1));
+
+		assertEquals(50, CacheUtils.getRegionSize(replicatedRegion));
+
+		CacheUtils.removeAll(replicatedRegion, new HashSet(keysToRemove2));
+
+		assertEquals(0, CacheUtils.getRegionSize(replicatedRegion));
 	}
 }

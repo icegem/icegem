@@ -162,6 +162,13 @@ public class CacheUtils {
 	 * @param keys the keys of entries to remove.
 	 */
 	public static <K>  void removeAll(Region<K, ?> region, Set<K> keys) {
+		if(keys == null) {
+			throw new NullPointerException();
+		}
+		if(keys.isEmpty()) {
+			// Nothing to do
+			return;
+		}
 		Function function = new RemoveAllFunction();
 
 		FunctionService.registerFunction(function);

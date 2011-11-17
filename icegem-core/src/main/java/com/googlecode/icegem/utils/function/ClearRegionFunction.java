@@ -28,15 +28,14 @@
  */
 package com.googlecode.icegem.utils.function;
 
-import com.gemstone.gemfire.admin.RegionNotFoundException;
-import com.gemstone.gemfire.cache.CacheFactory;
+import java.util.Set;
+
 import com.gemstone.gemfire.cache.Region;
 import com.gemstone.gemfire.cache.execute.FunctionAdapter;
 import com.gemstone.gemfire.cache.execute.FunctionContext;
+import com.gemstone.gemfire.cache.execute.RegionFunctionContext;
 import com.gemstone.gemfire.cache.execute.ResultSender;
 import com.gemstone.gemfire.cache.partition.PartitionRegionHelper;
-
-import java.util.Set;
 
 /**
  * Function for clearing regions of different types.
@@ -44,45 +43,38 @@ import java.util.Set;
  * @see com.googlecode.icegem.utils.CacheUtils for more details.
  * 
  * @author Andrey Stepanov aka standy
+ * @author Alexey Kharlamov <aharlamov@gmail.com>
  */
 public class ClearRegionFunction extends FunctionAdapter {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	
 	private final static String FUNCTION_ID = ClearRegionFunction.class
 			.getName();
 
-	@SuppressWarnings({ "ThrowableInstanceNeverThrown" })
 	@Override
 	public void execute(FunctionContext functionContext) {
 		ResultSender<Boolean> rs = functionContext.getResultSender();
-		Object arg = functionContext.getArguments();
+		RegionFunctionContext rctx = (RegionFunctionContext) functionContext;
+		boolean wanSafe = (Boolean) functionContext.getArguments();
 
-		if (!(arg instanceof String)) {
-			rs.sendException(new IllegalStateException(
-					"Function parameter must be instance of String.class"));
+		Region<Object, Object> region = rctx.getDataSet();
 
-			return;
-		}
-
-		String regionName = (String) arg;
-
-		Region<Object, Object> region = CacheFactory.getAnyInstance()
-				.getRegion(regionName);
-
-		if (region == null) {
-			rs.sendException(new RegionNotFoundException("Region '"
-					+ regionName + "' does not exist on this member"));
-
-			return;
-		}
-
-		if (region.getAttributes().getDataPolicy().withPartitioning()) {
-			Set<Object> keys = PartitionRegionHelper
-					.getLocalPrimaryData(region).keySet();
-
-			for (Object key : keys) {
-				region.destroy(key);
-			}
-		} else {
+		if(!wanSafe && !PartitionRegionHelper.isPartitionedRegion(region)) {
 			region.clear();
+		}
+		
+		Set<Object> keys ;
+		if (PartitionRegionHelper.isPartitionedRegion(region)) {
+			keys = PartitionRegionHelper.getLocalPrimaryData(region).keySet();
+		} else {
+			keys = region.keySet();
+		}
+
+		for (Object key : keys) {
+			region.destroy(key);
 		}
 
 		rs.lastResult(true);

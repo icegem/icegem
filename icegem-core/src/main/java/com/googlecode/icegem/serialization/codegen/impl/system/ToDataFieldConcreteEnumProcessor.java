@@ -39,11 +39,7 @@ import static com.googlecode.icegem.serialization.codegen.CodeGenUtils.firstLett
  * @author igolovach
  */
 
-public class ToDataFieldConcreteEnumProcessor implements ToDataProcessor { //todo: you can pack enum very well (only ordinal, not class name)
-    //todo: need write null/notnull flag if we use DataSerializer.writeEnum?
-    //todo: how GemFire serialize enum? what if it contains mutable fields? enum {int s; getA(){ret s} setB(arg) {s = arg}}
-    // todo: warn if enum contains mutable fields?
-
+public class ToDataFieldConcreteEnumProcessor implements ToDataProcessor { 
     public String process(XProperty field) {
         String fieldName = field.getName();
         String getter = "get" + firstLetterToUpperCase(fieldName) + "()";

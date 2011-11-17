@@ -28,16 +28,17 @@
  */
 package com.googlecode.icegem.utils;
 
-import java.io.Serializable;
 import java.util.Set;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.gemstone.gemfire.cache.CacheFactory;
 import com.gemstone.gemfire.cache.Region;
 import com.gemstone.gemfire.cache.execute.Function;
 import com.gemstone.gemfire.cache.execute.FunctionService;
 import com.gemstone.gemfire.cache.execute.ResultCollector;
+import com.gemstone.gemfire.internal.cache.GemFireCacheImpl;
 import com.googlecode.icegem.utils.function.ClearRegionFunction;
 import com.googlecode.icegem.utils.function.RemoveAllFunction;
 
@@ -80,6 +81,42 @@ public class CacheUtils {
 	}
 
 	/**
+	 * @see #clearRegion(Region, boolean, boolean).
+	 * 
+	 * @param region
+	 *            the region.
+	 */
+	public static void clearRegion(Region<?, ?> region) {
+		clearRegion(region, false, true);
+	}
+
+	/**
+	 * Clears all types of regions. This method can clean both types of regions
+	 * (REPLICATED, PARTITIONED). It can be used both on client and server side.
+	 * 
+	 * @param region
+	 *            the region.
+	 * @param wanCompatible
+	 *            if true, WAN replication compatible method will be used which
+	 *            is considerably slower on REPLICATE regions.
+	 * @param cleanLocal
+	 *            if true, local cached replicate shall be cleared.
+	 */
+	public static void clearRegion(Region<?, ?> region, boolean wanCompatible,
+			boolean cleanLocal) {
+		ClearRegionFunction cleaner = new ClearRegionFunction();
+
+		FunctionService.registerFunction(cleaner);
+
+		FunctionService.onRegion(region).withArgs(wanCompatible)
+				.execute(cleaner).getResult();
+
+		if (cleanLocal && isGemFireClient()) {
+			region.localClear();
+		}
+	}
+
+	/**
 	 * Returns first locator host and port from locators string.
 	 * 
 	 * @param locatorsString
@@ -107,39 +144,13 @@ public class CacheUtils {
 	}
 
 	/**
-	 * Clears all types of regions. This method can clean both types of regions
-	 * (REPLICATED, PARTITIONED). It can be used both on client and server side.
-	 * 
-	 * Note: if this method is used from client configured as CACHING_PROXY:
-	 * clearing of PARTITIONED regions: - if client's data should be cleared
-	 * together with server's data, client interest should be registered on
-	 * entries changes; clearing of REPLICATED regions: - if client's data
-	 * should be cleared together with server's data, this method should be
-	 * invoked from the client together with region.localClear() method.
-	 * 
-	 * @param region
-	 *            partitioned region
-	 */
-	public static void clearRegion(Region<?, ?> region) {
-		ClearRegionFunction cleaner = new ClearRegionFunction();
-
-		FunctionService.registerFunction(cleaner);
-
-		ResultCollector rc = FunctionService.onRegion(region)
-				.withArgs(region.getName()).execute(cleaner);
-
-		rc.getResult();
-	}
-
-	/**
 	 * Returns approximate number of entries in the region. As the function
-	 * counts number of entries on different nodes in parallel, per node 
-	 * values may be captured on different moments. So the value may never 
-	 * be valid.
+	 * counts number of entries on different nodes in parallel, per node values
+	 * may be captured on different moments. So the value may never be valid.
 	 * 
 	 * @param region
-	 *            Region.
-	 * @return Size of the given region.
+	 *            the region.
+	 * @returns approximate number of objects in the given region.
 	 */
 	public static int getRegionSize(Region<?, ?> region) {
 		Function function = new RegionSizeFunction();
@@ -154,18 +165,32 @@ public class CacheUtils {
 	}
 
 	/**
+	 * Checks if the current GemFire is a client instance.
+	 * 
+	 * @return true if the cache instance is client.
+	 */
+	public static boolean isGemFireClient() {
+		GemFireCacheImpl impl = (GemFireCacheImpl) CacheFactory
+				.getAnyInstance();
+		return impl != null && impl.isClient();
+	}
+
+	/**
 	 * Removes several entries from region in a single hop. On partitioned
 	 * region execution is done simultaneously on all partitions.
 	 * 
-	 * @param <K> key type.
-	 * @param region the region to remove entries.
-	 * @param keys the keys of entries to remove.
+	 * @param <K>
+	 *            key type.
+	 * @param region
+	 *            the region to remove entries.
+	 * @param keys
+	 *            the keys of entries to remove.
 	 */
-	public static <K>  void removeAll(Region<K, ?> region, Set<K> keys) {
-		if(keys == null) {
+	public static <K> void removeAll(Region<K, ?> region, Set<K> keys) {
+		if (keys == null) {
 			throw new NullPointerException();
 		}
-		if(keys.isEmpty()) {
+		if (keys.isEmpty()) {
 			// Nothing to do
 			return;
 		}
@@ -173,14 +198,11 @@ public class CacheUtils {
 
 		FunctionService.registerFunction(function);
 
-		ResultCollector rc = FunctionService.onRegion(region)
-				.withFilter(keys)
-				.withArgs(region.getName())
-				.execute(function);
+		ResultCollector rc = FunctionService.onRegion(region).withFilter(keys)
+				.withArgs(region.getName()).execute(function);
 		rc.getResult();
 	}
 
-	
 	/**
 	 * Retries passed operation with random exponential back off delay.
 	 * 

@@ -86,6 +86,11 @@ public class ClearRegionFunction extends FunctionAdapter {
 	}
 	
 	@Override
+	public boolean isHA() {
+		return true;
+	}
+	
+	@Override
 	public boolean optimizeForWrite() {
 		return true;
 	}

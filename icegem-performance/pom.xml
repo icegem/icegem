@@ -84,36 +84,6 @@
 					<target>1.5</target>
 				</configuration>
 			</plugin>
-
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-dependency-plugin</artifactId>
-                <executions>
-                    <execution>
-                        <id>unpack-dependencies</id>
-                        <goals>
-                            <goal>unpack-dependencies</goal>
-                        </goals>
-                        <configuration>
-                            <excludeTransitive>true</excludeTransitive>
-                            <outputDirectory>${project.build.directory}/classes</outputDirectory>
-                        </configuration>
-
-                        <!--<id>copy-dependencies</id>-->
-                        <!--<goals>-->
-                        <!--<goal>copy-dependencies</goal>-->
-                        <!--</goals>-->
-                        <!--<configuration>-->
-                        <!--<excludeTransitive>true</excludeTransitive>-->
-                        <!--
-                                  <outputDirectory>${project.build.directory}/classes</outputDirectory>
-                              -->
-                        <!--</configuration>-->
-
-                    </execution>
-                </executions>
-            </plugin>
-
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-jar-plugin</artifactId>

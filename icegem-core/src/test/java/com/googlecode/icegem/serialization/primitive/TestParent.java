@@ -33,9 +33,12 @@ import java.io.ByteArrayOutputStream;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 
+import org.junit.BeforeClass;
+
 import junit.framework.TestCase;
 
 import com.gemstone.gemfire.DataSerializer;
+import com.gemstone.gemfire.SystemFailure;
 import com.googlecode.icegem.serialization.HierarchyRegistry;
 
 /**
@@ -45,6 +48,15 @@ import com.googlecode.icegem.serialization.HierarchyRegistry;
  */
 public class TestParent {
     public static final String MSG = "You test throw Exception. We mask it by RuntimeException. If you need concrete type - write serialization logic yourself.";
+    
+    public static ClassLoader getContextClassLoader() {
+        return Thread.currentThread().getContextClassLoader();
+    }
+
+    @BeforeClass
+	public static void loadClasses() throws Exception {
+		SystemFailure.checkFailure();
+	}
 
     public <T> T registerSerializeAndDeserialize(T obj) {
         try {
@@ -64,7 +76,7 @@ public class TestParent {
         }
     }
 
-    public <T> T serializeAndDeserialize(T obj) {
+	public <T> T serializeAndDeserialize(T obj) {
         try {
             // serialize
             final ByteArrayOutputStream buff = new ByteArrayOutputStream();
@@ -80,7 +92,4 @@ public class TestParent {
         }
     }
 
-    public static ClassLoader getContextClassLoader() {
-        return Thread.currentThread().getContextClassLoader();
-    }
 }

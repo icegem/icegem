@@ -36,6 +36,7 @@ import com.googlecode.icegem.serialization.primitive.TestParent;
  * @author Andrey Stepanov aka standy
  */
 public class CyclicObjectRef1WithDisabledMethodFrameCounterTest extends TestParent {
+	
     @Test(expected = StackOverflowError.class)
     public void test() {
         // create test bean

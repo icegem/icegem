@@ -310,8 +310,8 @@ public class BucketOrientedQueryServiceTest {
     private static void startCacheServers() throws IOException, InterruptedException {
 	String[] javaArgs = new String[] { "-DgemfirePropertyFile=" + PROPERTY_FILE };
 
-	cacheServer1 = javaProcessLauncher.runWithConfirmation(ServerTemplate.class, javaArgs, null);
-	cacheServer2 = javaProcessLauncher.runWithConfirmation(ServerTemplate.class, javaArgs, null);
+	cacheServer1 = javaProcessLauncher.runWithConfirmation("", ServerTemplate.class, javaArgs, null);
+	cacheServer2 = javaProcessLauncher.runWithConfirmation("", ServerTemplate.class, javaArgs, null);
     }
 
     /**

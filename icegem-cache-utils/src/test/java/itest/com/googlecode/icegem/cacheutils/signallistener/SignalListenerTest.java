@@ -56,9 +56,9 @@ public class SignalListenerTest {
 
     @BeforeClass
     public static void init() throws IOException, InterruptedException {
-        node = launcher.runWithConfirmation(ServerTemplate.class,
-                new String[] {"-DgemfirePropertyFile=signalListener.properties"},
-                null);
+        node = launcher.runWithConfirmation("",
+                ServerTemplate.class,
+                new String[] {"-DgemfirePropertyFile=signalListener.properties"}, null);
 
         PropertiesHelper properties = new PropertiesHelper("/signalListener.properties");
 

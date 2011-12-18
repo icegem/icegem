@@ -466,10 +466,10 @@ public class PaginatedQueryTest {
      *             when
      */
     private static void startCacheServers() throws IOException, InterruptedException {
-	cacheServer1 = javaProcessLauncher.runWithConfirmation(ServerTemplate.class,
-		new String[] { "-DgemfirePropertyFile=paginatedQueryServerProperties.properties" }, null);
-	cacheServer2 = javaProcessLauncher.runWithConfirmation(ServerTemplate.class,
-		new String[] { "-DgemfirePropertyFile=paginatedQueryServerProperties.properties" }, null);
+	cacheServer1 = javaProcessLauncher.runWithConfirmation("",
+		ServerTemplate.class, new String[] { "-DgemfirePropertyFile=paginatedQueryServerProperties.properties" }, null);
+	cacheServer2 = javaProcessLauncher.runWithConfirmation("",
+		ServerTemplate.class, new String[] { "-DgemfirePropertyFile=paginatedQueryServerProperties.properties" }, null);
     }
 
     /**

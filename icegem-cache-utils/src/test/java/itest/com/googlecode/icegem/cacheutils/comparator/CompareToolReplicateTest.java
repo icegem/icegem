@@ -144,7 +144,7 @@ public class CompareToolReplicateTest {
 
 		long startTime = System.currentTimeMillis();
 		int exitCode = javaProcessLauncher.runAndWaitProcessExitCode(
-			Launcher.class, vmArguments, new String[] { "compare", "-sr",
+			"", Launcher.class, vmArguments, new String[] { "compare", "-sr",
 				REGION_NAME, "-tr", REGION_NAME, "-ss", SERVER_40804, "-ts",
 				SERVER_40805, "-c",
 				"itest.com.googlecode.icegem.cacheutils.comparator" });
@@ -168,7 +168,7 @@ public class CompareToolReplicateTest {
 
 		long startTime = System.currentTimeMillis();
 		int exitCode = javaProcessLauncher.runAndWaitProcessExitCode(
-			Launcher.class, vmArguments, new String[] { "compare", "-sr",
+			"", Launcher.class, vmArguments, new String[] { "compare", "-sr",
 				REGION_NAME, "-tr", REGION_NAME, "-ss", SERVER_40804, "-ts",
 				SERVER_40805, "-lf", "80", "-c",
 				"itest.com.googlecode.icegem.cacheutils.comparator" });
@@ -183,7 +183,7 @@ public class CompareToolReplicateTest {
 
 		startTime = System.currentTimeMillis();
 		exitCode = javaProcessLauncher.runAndWaitProcessExitCode(
-			Launcher.class, vmArguments, new String[] { "compare", "-sr",
+			"", Launcher.class, vmArguments, new String[] { "compare", "-sr",
 				REGION_NAME, "-tr", REGION_NAME, "-ss", SERVER_40804, "-ts",
 				SERVER_40805, "-lf", "50", "-c",
 				"itest.com.googlecode.icegem.cacheutils.comparator" });
@@ -207,7 +207,7 @@ public class CompareToolReplicateTest {
 
 		long startTime = System.currentTimeMillis();
 		int exitCode = javaProcessLauncher.runAndWaitProcessExitCode(
-			Launcher.class, vmArguments, new String[] { "compare", "-sr",
+			"", Launcher.class, vmArguments, new String[] { "compare", "-sr",
 				REGION_NAME, "-tr", REGION_NAME, "-ss", SERVER_40804, "-ts",
 				SERVER_40805, "-c",
 				"itest.com.googlecode.icegem.cacheutils.comparator" });
@@ -223,24 +223,24 @@ public class CompareToolReplicateTest {
 		InterruptedException {
 		cacheServer1 = javaProcessLauncher
 			.runWithConfirmation(
+				"",
 				ServerTemplate.class,
-				new String[] { "-DgemfirePropertyFile=compareToolReplicateServerProperties40804.properties" },
-				null);
+				new String[] { "-DgemfirePropertyFile=compareToolReplicateServerProperties40804.properties" }, null);
 		cacheServer2 = javaProcessLauncher
 			.runWithConfirmation(
+				"",
 				ServerTemplate.class,
-				new String[] { "-DgemfirePropertyFile=compareToolReplicateServerProperties40805.properties" },
-				null);
+				new String[] { "-DgemfirePropertyFile=compareToolReplicateServerProperties40805.properties" }, null);
 		cacheServer3 = javaProcessLauncher
 			.runWithConfirmation(
+				"",
 				ServerTemplate.class,
-				new String[] { "-DgemfirePropertyFile=compareToolReplicateServerProperties40814.properties" },
-				null);
+				new String[] { "-DgemfirePropertyFile=compareToolReplicateServerProperties40814.properties" }, null);
 		cacheServer4 = javaProcessLauncher
 			.runWithConfirmation(
+				"",
 				ServerTemplate.class,
-				new String[] { "-DgemfirePropertyFile=compareToolReplicateServerProperties40815.properties" },
-				null);
+				new String[] { "-DgemfirePropertyFile=compareToolReplicateServerProperties40815.properties" }, null);
 	}
 
 	private static void stopCacheServers() throws IOException,

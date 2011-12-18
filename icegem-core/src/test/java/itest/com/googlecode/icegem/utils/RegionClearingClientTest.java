@@ -160,13 +160,13 @@ public class RegionClearingClientTest {
      */
     private static void startCacheServers() throws IOException, InterruptedException {
         cacheServer1 = javaProcessLauncher.runWithConfirmation(
+                "",
                 ServerTemplate.class,
-                new String[]{"-DgemfirePropertyFile=regionClearingProperties.properties"},
-                null);
+                new String[]{"-DgemfirePropertyFile=regionClearingProperties.properties"}, null);
         cacheServer2 = javaProcessLauncher.runWithConfirmation(
+                "",
                 ServerTemplate.class,
-                new String[]{"-DgemfirePropertyFile=regionClearingProperties.properties"},
-                null);
+                new String[]{"-DgemfirePropertyFile=regionClearingProperties.properties"}, null);
     }
 
     /**

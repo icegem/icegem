@@ -66,8 +66,6 @@ public class HierarchyRegistry {
 
     public static synchronized void registerAll(ClassLoader classLoader, List<Class<?>> classList, String outputDir)
             throws InvalidClassException, CannotCompileException {
-        List<String> list = Arrays.asList("c");
-
         // solve problem when one class is registered two or more times
         List<Class<?>> classListToGenerate = new LinkedList<Class<?>>();
         for (Class<?> clazz : classList) {

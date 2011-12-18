@@ -55,7 +55,7 @@ public class RegionClearingServerTest {
     private static Cache cache;
     /** Field replicatedRegion1  */
     private static Region<Object, Object> replicatedRegion1;
-    /** Field rep¯licatedRegion2  */
+    /** Field repï¿½licatedRegion2  */
     private static Region<Object, Object> replicatedRegion2;
     /** Field partitionedRegion1  */
     private static Region<Object, Object> partitionedRegion1;
@@ -149,13 +149,13 @@ public class RegionClearingServerTest {
      */
     private static void startCacheServers() throws IOException, InterruptedException {
         cacheServer1 = javaProcessLauncher.runWithConfirmation(
+                "",
                 ServerTemplate.class,
-                new String[]{"-DgemfirePropertyFile=regionClearingProperties.properties"},
-                null);
+                new String[]{"-DgemfirePropertyFile=regionClearingProperties.properties"}, null);
         cacheServer2 = javaProcessLauncher.runWithConfirmation(
+                "",
                 ServerTemplate.class,
-                new String[]{"-DgemfirePropertyFile=regionClearingProperties.properties"},
-                null
+                new String[]{"-DgemfirePropertyFile=regionClearingProperties.properties"}, null
         );
     }
 

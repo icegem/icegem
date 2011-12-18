@@ -108,7 +108,7 @@ public class MonitorToolTest {
 		String[] vmArguments = new String[] { "-Dgemfire.log-level=none" };
 
 		int exitCode = javaProcessLauncher.runAndWaitProcessExitCode(
-			Launcher.class, vmArguments, new String[] { "monitor", "-a" });
+			"", Launcher.class, vmArguments, new String[] { "monitor", "-a" });
 
 		assertEquals(exitCode, 1);
 	}
@@ -120,7 +120,7 @@ public class MonitorToolTest {
 		String[] vmArguments = new String[] { "-Dgemfire.log-level=none" };
 
 		int exitCode = javaProcessLauncher.runAndWaitProcessExitCode(
-			Launcher.class, vmArguments, new String[] { "monitor" });
+			"", Launcher.class, vmArguments, new String[] { "monitor" });
 
 		assertEquals(exitCode, 1);
 	}
@@ -132,7 +132,7 @@ public class MonitorToolTest {
 		String[] vmArguments = new String[] { "-Dgemfire.log-level=none" };
 
 		int exitCode = javaProcessLauncher.runAndWaitProcessExitCode(
-			Launcher.class, vmArguments, new String[] { "monitor", "-a", "-l",
+			"", Launcher.class, vmArguments, new String[] { "monitor", "-a", "-l",
 				"localhost[-1]" });
 
 		assertEquals(exitCode, 1);
@@ -145,8 +145,8 @@ public class MonitorToolTest {
 		String[] vmArguments = new String[] { "-Dgemfire.log-level=none" };
 
 		int exitCode = javaProcessLauncher
-			.runAndWaitProcessExitCode(Launcher.class, vmArguments,
-				new String[] { "monitor", "-a", "-l" });
+			.runAndWaitProcessExitCode("", Launcher.class,
+				vmArguments, new String[] { "monitor", "-a", "-l" });
 
 		assertEquals(exitCode, 1);
 	}
@@ -158,7 +158,7 @@ public class MonitorToolTest {
 		String[] vmArguments = new String[] { "-Dgemfire.log-level=none" };
 
 		int exitCode = javaProcessLauncher.runAndWaitProcessExitCode(
-			Launcher.class, vmArguments, new String[] { "monitor", "-s",
+			"", Launcher.class, vmArguments, new String[] { "monitor", "-s",
 				"localhost[40404]", "-t", "3000" });
 
 		assertEquals(exitCode, 0);
@@ -171,7 +171,7 @@ public class MonitorToolTest {
 		String[] vmArguments = new String[] { "-Dgemfire.log-level=none" };
 
 		int exitCode = javaProcessLauncher.runAndWaitProcessExitCode(
-			Launcher.class, vmArguments, new String[] { "monitor", "-s",
+			"", Launcher.class, vmArguments, new String[] { "monitor", "-s",
 				"localhost[50505]", "-t", "3000" });
 
 		assertEquals(exitCode, 1);
@@ -185,7 +185,7 @@ public class MonitorToolTest {
 		String[] vmArguments = new String[] { "-Dgemfire.log-level=none" };
 
 		int exitCode = javaProcessLauncher.runAndWaitProcessExitCode(
-			Launcher.class, vmArguments, new String[] { "monitor", "-s",
+			"", Launcher.class, vmArguments, new String[] { "monitor", "-s",
 				"localhost[-1]" });
 
 		assertEquals(exitCode, 1);
@@ -198,7 +198,7 @@ public class MonitorToolTest {
 		String[] vmArguments = new String[] { "-Dgemfire.log-level=none" };
 
 		int exitCode = javaProcessLauncher.runAndWaitProcessExitCode(
-			Launcher.class, vmArguments, new String[] { "monitor", "-s" });
+			"", Launcher.class, vmArguments, new String[] { "monitor", "-s" });
 
 		assertEquals(exitCode, 1);
 	}
@@ -206,14 +206,14 @@ public class MonitorToolTest {
 	private static void startCacheServers() throws IOException, InterruptedException {
 		cacheServer1 = javaProcessLauncher
 			.runWithConfirmation(
+				"",
 				ServerTemplate.class,
-				new String[] { "-DgemfirePropertyFile=monitorToolServerProperties40404.properties" },
-				null);
+				new String[] { "-DgemfirePropertyFile=monitorToolServerProperties40404.properties" }, null);
 		cacheServer2 = javaProcessLauncher
 			.runWithConfirmation(
+				"",
 				ServerTemplate.class,
-				new String[] { "-DgemfirePropertyFile=monitorToolServerProperties40405.properties" },
-				null);
+				new String[] { "-DgemfirePropertyFile=monitorToolServerProperties40405.properties" }, null);
 	}
 
 	private static void stopCacheServers() throws IOException, InterruptedException {

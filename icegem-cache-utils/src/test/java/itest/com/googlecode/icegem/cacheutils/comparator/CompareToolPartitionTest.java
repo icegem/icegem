@@ -155,9 +155,9 @@ public class CompareToolPartitionTest {
 		long startTime = System.currentTimeMillis();
 		int exitCode = javaProcessLauncher
 			.runAndWaitProcessExitCode(
+				"",
 				Launcher.class,
-				vmArguments,
-				new String[] {
+				vmArguments, new String[] {
 					"compare",
 					"-sr",
 					REGION_NAME,
@@ -199,9 +199,9 @@ public class CompareToolPartitionTest {
 		long startTime = System.currentTimeMillis();
 		int exitCode = javaProcessLauncher
 			.runAndWaitProcessExitCode(
+				"",
 				Launcher.class,
-				vmArguments,
-				new String[] {
+				vmArguments, new String[] {
 					"compare",
 					"-sr",
 					REGION_NAME,
@@ -228,9 +228,9 @@ public class CompareToolPartitionTest {
 		startTime = System.currentTimeMillis();
 		exitCode = javaProcessLauncher
 			.runAndWaitProcessExitCode(
+				"",
 				Launcher.class,
-				vmArguments,
-				new String[] {
+				vmArguments, new String[] {
 					"compare",
 					"-sr",
 					REGION_NAME,
@@ -265,9 +265,9 @@ public class CompareToolPartitionTest {
 		long startTime = System.currentTimeMillis();
 		int exitCode = javaProcessLauncher
 			.runAndWaitProcessExitCode(
+				"",
 				Launcher.class,
-				vmArguments,
-				new String[] {
+				vmArguments, new String[] {
 					"compare",
 					"-sr",
 					REGION_NAME,
@@ -292,24 +292,24 @@ public class CompareToolPartitionTest {
 		InterruptedException {
 		cacheServer1 = javaProcessLauncher
 			.runWithConfirmation(
+				"",
 				ServerTemplate.class,
-				new String[] { "-DgemfirePropertyFile=compareToolPartitionServerProperties40704.properties" },
-				null);
+				new String[] { "-DgemfirePropertyFile=compareToolPartitionServerProperties40704.properties" }, null);
 		cacheServer2 = javaProcessLauncher
 			.runWithConfirmation(
+				"",
 				ServerTemplate.class,
-				new String[] { "-DgemfirePropertyFile=compareToolPartitionServerProperties40705.properties" },
-				null);
+				new String[] { "-DgemfirePropertyFile=compareToolPartitionServerProperties40705.properties" }, null);
 		cacheServer3 = javaProcessLauncher
 			.runWithConfirmation(
+				"",
 				ServerTemplate.class,
-				new String[] { "-DgemfirePropertyFile=compareToolPartitionServerProperties40714.properties" },
-				null);
+				new String[] { "-DgemfirePropertyFile=compareToolPartitionServerProperties40714.properties" }, null);
 		cacheServer4 = javaProcessLauncher
 			.runWithConfirmation(
+				"",
 				ServerTemplate.class,
-				new String[] { "-DgemfirePropertyFile=compareToolPartitionServerProperties40715.properties" },
-				null);
+				new String[] { "-DgemfirePropertyFile=compareToolPartitionServerProperties40715.properties" }, null);
 	}
 
 	private static void stopCacheServers() throws IOException,

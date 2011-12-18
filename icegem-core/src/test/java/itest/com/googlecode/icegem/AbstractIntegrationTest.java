@@ -121,7 +121,7 @@ public abstract class AbstractIntegrationTest {
 	for (int i = 0; i < cacheServers.length; i++) {
 	    System.out.println("Starting cache server number: " + i);
 
-	    cacheServers[i] = javaProcessLauncher.runWithConfirmation(ServerTemplate.class, javaArgs, null);
+	    cacheServers[i] = javaProcessLauncher.runWithConfirmation("", ServerTemplate.class, javaArgs, null);
 	}
     }
 

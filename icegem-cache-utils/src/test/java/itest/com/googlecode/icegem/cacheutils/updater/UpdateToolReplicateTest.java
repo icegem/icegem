@@ -168,7 +168,7 @@ public class UpdateToolReplicateTest {
 		String[] vmArguments = new String[] { "-Dgemfire.log-level=none" };
 
 		int exitCode = javaProcessLauncher.runAndWaitProcessExitCode(
-			Launcher.class, vmArguments, new String[] { "update", "-l",
+			"", Launcher.class, vmArguments, new String[] { "update", "-l",
 				propertiesHelper.getStringProperty("locators"), "-s",
 				"localhost[41414]", "-r", REGION_DATA1 });
 
@@ -188,7 +188,7 @@ public class UpdateToolReplicateTest {
 		String[] vmArguments = new String[] { "-Dgemfire.log-level=none" };
 
 		int exitCode = javaProcessLauncher.runAndWaitProcessExitCode(
-			Launcher.class, vmArguments, new String[] { "update", "-l",
+			"", Launcher.class, vmArguments, new String[] { "update", "-l",
 				propertiesHelper.getStringProperty("locators"), "-s",
 				"localhost[41414]", "-r", REGION_DATA1, "-c" });
 
@@ -212,7 +212,7 @@ public class UpdateToolReplicateTest {
 		String[] vmArguments = new String[] { "-Dgemfire.log-level=none" };
 
 		int exitCode = javaProcessLauncher.runAndWaitProcessExitCode(
-			Launcher.class, vmArguments, new String[] { "update", "-l",
+			"", Launcher.class, vmArguments, new String[] { "update", "-l",
 				propertiesHelper.getStringProperty("locators"), "-s",
 				"localhost[41414]", "-r", REGION_DATA1 + "," + REGION_DATA2 });
 
@@ -240,7 +240,7 @@ public class UpdateToolReplicateTest {
 		String[] vmArguments = new String[] { "-Dgemfire.log-level=none" };
 
 		int exitCode = javaProcessLauncher.runAndWaitProcessExitCode(
-			Launcher.class, vmArguments, new String[] { "update", "-l",
+			"", Launcher.class, vmArguments, new String[] { "update", "-l",
 				propertiesHelper.getStringProperty("locators"), "-s",
 				"localhost[41414]", "-a" });
 
@@ -281,7 +281,7 @@ public class UpdateToolReplicateTest {
 		String[] vmArguments = new String[] { "-Dgemfire.log-level=none" };
 
 		int exitCode = javaProcessLauncher.runAndWaitProcessExitCode(
-			Launcher.class, vmArguments, new String[] {
+			"", Launcher.class, vmArguments, new String[] {
 				"update",
 				"-l",
 				propertiesHelper.getStringProperty("locators"),
@@ -321,14 +321,14 @@ public class UpdateToolReplicateTest {
 	private static void startCacheServers() throws IOException, InterruptedException {
 		cacheServer1 = javaProcessLauncher
 			.runWithConfirmation(
+				"",
 				ServerTemplate.class,
-				new String[] { "-DgemfirePropertyFile=updateToolReplicateServerProperties41414.properties" },
-				null);
+				new String[] { "-DgemfirePropertyFile=updateToolReplicateServerProperties41414.properties" }, null);
 		cacheServer2 = javaProcessLauncher
 			.runWithConfirmation(
+				"",
 				ServerTemplate.class,
-				new String[] { "-DgemfirePropertyFile=updateToolReplicateServerProperties41415.properties" },
-				null);
+				new String[] { "-DgemfirePropertyFile=updateToolReplicateServerProperties41415.properties" }, null);
 	}
 
 	private static void stopCacheServers() throws IOException, InterruptedException {

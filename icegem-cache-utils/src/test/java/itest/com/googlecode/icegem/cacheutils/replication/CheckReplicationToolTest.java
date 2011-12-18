@@ -28,6 +28,8 @@
  */
 package itest.com.googlecode.icegem.cacheutils.replication;
 
+import itest.com.googlecode.icegem.cacheutils.comparator.User;
+
 import java.io.IOException;
 import java.util.concurrent.TimeoutException;
 
@@ -63,7 +65,7 @@ public class CheckReplicationToolTest {
 
 	/** Field javaProcessLauncher */
 	private static JavaProcessLauncher javaProcessLauncher = new JavaProcessLauncher(
-		false, false, false);
+		true, true, true);
 
 	@BeforeClass
 	public static void setUp() throws IOException, InterruptedException,
@@ -91,7 +93,7 @@ public class CheckReplicationToolTest {
 			"-Dgemfire.log-level=none" };
 
 		int exitCode = javaProcessLauncher.runAndWaitProcessExitCode(
-			Launcher.class, vmArguments, new String[] { "-d", "-q",
+			"", Launcher.class, vmArguments, new String[] { "-d", "-q",
 				"check-replication", "-c", "clusterA=localhost[18081]", "-c",
 				"clusterB=localhost[18082]", "-c", "clusterC=localhost[18083]",
 				"-t", "30000" });
@@ -114,7 +116,7 @@ public class CheckReplicationToolTest {
 			"-Dgemfire.log-level=none" };
 
 		int exitCode = javaProcessLauncher.runAndWaitProcessExitCode(
-			Launcher.class, vmArguments, new String[] { "-d", "-q",
+			"", Launcher.class, vmArguments, new String[] { "-d", "-q",
 				"check-replication", "-c", "clusterA=localhost[18081]", "-c",
 				"clusterB=localhost[18082]", "-t", "30000" });
 
@@ -136,7 +138,7 @@ public class CheckReplicationToolTest {
 			"-Dgemfire.log-level=none" };
 
 		int exitCode = javaProcessLauncher.runAndWaitProcessExitCode(
-			Launcher.class, vmArguments, new String[] { "check-replication",
+			"", Launcher.class, vmArguments, new String[] { "check-replication",
 				"-c",
 				"clusterA=localhost[18081],localhost[18084],localhost[18085]",
 				"-c", "clusterB=localhost[18082],localhost[18086]", "-c",
@@ -160,7 +162,7 @@ public class CheckReplicationToolTest {
 			"-Dgemfire.log-level=none" };
 
 		int exitCode = javaProcessLauncher.runAndWaitProcessExitCode(
-			Launcher.class, vmArguments, new String[] { "check-replication",
+			"", Launcher.class, vmArguments, new String[] { "check-replication",
 				"-c", "clusterA=localhost[18081]", "-c",
 				"clusterB=localhost[18082]", "-c", "clusterD=localhost[18084]",
 				"-t", "10000" });
@@ -183,7 +185,7 @@ public class CheckReplicationToolTest {
 			"-Dgemfire.log-level=none" };
 
 		int exitCode = javaProcessLauncher.runAndWaitProcessExitCode(
-			Launcher.class, vmArguments, new String[] { "check-replication",
+			"", Launcher.class, vmArguments, new String[] { "check-replication",
 				"-c", "clusterA=localhost[18081]", "-t", "10000" });
 
 		assertEquals(exitCode, 1);
@@ -194,7 +196,7 @@ public class CheckReplicationToolTest {
 		System.out.println("testMainPositiveDefaultLicense");
 
 		int exitCode = javaProcessLauncher.runAndWaitProcessExitCode(
-			Launcher.class, null, new String[] { "check-replication", "-c",
+			"", Launcher.class, null, new String[] { "check-replication", "-c",
 				"clusterA=localhost[18081]", "-c", "clusterB=localhost[18082]",
 				"-c", "clusterC=localhost[18083]", "-t", "10000" });
 
@@ -206,7 +208,7 @@ public class CheckReplicationToolTest {
 		System.out.println("testMainNegativeEmptyParameters");
 
 		int exitCode = javaProcessLauncher.runAndWaitProcessExitCode(
-			Launcher.class, null, new String[] { "check-replication" });
+			"", Launcher.class, null, new String[] { "check-replication" });
 
 		assertEquals(exitCode, 1);
 	}
@@ -226,7 +228,7 @@ public class CheckReplicationToolTest {
 			"-Dgemfire.log-level=none" };
 
 		int exitCode = javaProcessLauncher.runAndWaitProcessExitCode(
-			Launcher.class, vmArguments, new String[] { "check-replication",
+			"", Launcher.class, vmArguments, new String[] { "check-replication",
 				"-c", "clusterA=localhost[18081]", "-c",
 				"clusterB=localhost[18082]", "-c", "clusterC=localhost[18083]",
 				"-t", "10000", "-r", "wrong" });
@@ -249,7 +251,7 @@ public class CheckReplicationToolTest {
 			"-Dgemfire.log-level=none" };
 
 		int exitCode = javaProcessLauncher.runAndWaitProcessExitCode(
-			Launcher.class, vmArguments, new String[] { "-d", "-q", "-h",
+			"", Launcher.class, vmArguments, new String[] { "-d", "-q", "-h",
 				"check-replication", "-c", "clusterA=localhost[18081]", "-c",
 				"clusterB=localhost[18082]", "-c", "clusterC=localhost[18083]",
 				"-t", "30000" });
@@ -260,35 +262,35 @@ public class CheckReplicationToolTest {
 	private static void startGateways() throws IOException, InterruptedException {
 		gatewayA = javaProcessLauncher
 			.runWithConfirmation(
+				"",
 				ServerTemplate.class,
-				new String[] { "-DgemfirePropertyFile=checkReplicationToolGatewayA.properties" },
-				null);
+				new String[] { "-DgemfirePropertyFile=checkReplicationToolGatewayA.properties" }, new String[] { User.class.getName() });
 		gatewayB = javaProcessLauncher
 			.runWithConfirmation(
+				"",
 				ServerTemplate.class,
-				new String[] { "-DgemfirePropertyFile=checkReplicationToolGatewayB.properties" },
-				null);
+				new String[] { "-DgemfirePropertyFile=checkReplicationToolGatewayB.properties" }, new String[] { User.class.getName() });
 		gatewayC = javaProcessLauncher
 			.runWithConfirmation(
+				"",
 				ServerTemplate.class,
-				new String[] { "-DgemfirePropertyFile=checkReplicationToolGatewayC.properties" },
-				null);
+				new String[] { "-DgemfirePropertyFile=checkReplicationToolGatewayC.properties" }, new String[] { User.class.getName() });
 
 		cacheServerA = javaProcessLauncher
 			.runWithConfirmation(
+				"",
 				ServerTemplate.class,
-				new String[] { "-DgemfirePropertyFile=checkReplicationToolCacheServerA.properties" },
-				null);
+				new String[] { "-DgemfirePropertyFile=checkReplicationToolCacheServerA.properties" }, new String[] { User.class.getName() });
 		cacheServerB = javaProcessLauncher
 			.runWithConfirmation(
+				"",
 				ServerTemplate.class,
-				new String[] { "-DgemfirePropertyFile=checkReplicationToolCacheServerB.properties" },
-				null);
+				new String[] { "-DgemfirePropertyFile=checkReplicationToolCacheServerB.properties" }, new String[] { User.class.getName() });
 		cacheServerC = javaProcessLauncher
 			.runWithConfirmation(
+				"",
 				ServerTemplate.class,
-				new String[] { "-DgemfirePropertyFile=checkReplicationToolCacheServerC.properties" },
-				null);
+				new String[] { "-DgemfirePropertyFile=checkReplicationToolCacheServerC.properties" }, new String[] { User.class.getName() });
 	}
 
 	private static void stopGateways() throws IOException, InterruptedException {

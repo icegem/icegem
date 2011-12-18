@@ -125,9 +125,9 @@ public class ReplicationProcessor {
 				+ ", regionName = " + regionName);
 
 			Process process = javaProcessLauncher.runWithoutConfirmation(
+				"",
 				GuestNode.class,
-				vmOptions,
-				new String[] { cluster, clustersPropertiesString,
+				vmOptions, new String[] { cluster, clustersPropertiesString,
 					String.valueOf(timeout), regionName,
 					String.valueOf(debugEnabled), String.valueOf(quiet),
 					String.valueOf(processingStartedAt) });

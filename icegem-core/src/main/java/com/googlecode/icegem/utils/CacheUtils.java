@@ -157,7 +157,7 @@ public class CacheUtils {
 
 		FunctionService.registerFunction(function);
 
-		ResultCollector rc = FunctionService.onRegion(region)
+		ResultCollector<?, ?> rc = FunctionService.onRegion(region)
 				.withCollector(new RegionSizeResultCollector())
 				.execute(function);
 
@@ -198,8 +198,11 @@ public class CacheUtils {
 
 		FunctionService.registerFunction(function);
 
-		ResultCollector rc = FunctionService.onRegion(region).withFilter(keys)
-				.withArgs(region.getName()).execute(function);
+		ResultCollector<?, ?> rc = FunctionService.onRegion(region)
+				.withFilter(keys).withArgs(region.getName()).execute(function);
+		
+		// Obtain result from the collector to return
+		// only after everything is done.
 		rc.getResult();
 	}
 

@@ -153,7 +153,7 @@ public class CompareTool extends Tool {
 		FileService.writeObject(inputFilename, arguments);
 
 		process = javaProcessLauncher.runWithoutConfirmation(
-			GetNodesTask.class, null, new String[] { inputFilename });
+			"", GetNodesTask.class, null, new String[] { inputFilename });
 
 		return process;
 	}

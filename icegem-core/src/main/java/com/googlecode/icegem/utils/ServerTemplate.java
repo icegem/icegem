@@ -28,47 +28,69 @@
  */
 package com.googlecode.icegem.utils;
 
-import com.gemstone.gemfire.cache.*;
+import com.gemstone.gemfire.cache.Cache;
+import com.gemstone.gemfire.cache.CacheFactory;
+import com.googlecode.icegem.serialization.HierarchyRegistry;
 
 /**
  * Server template for using in tests.
- *
- * Use {@link JavaProcessLauncher#runWithConfirmation(Class, String[], String[])}
- * to launch this cache server from tests. All peer/server configurations should be
+ * 
+ * Use
+ * {@link JavaProcessLauncher#runWithConfirmation(String, Class, String[], String[])} to
+ * launch this cache server from tests. All peer/server configurations should be
  * passed via properties file.
- *
+ * 
  * @see JavaProcessLauncher
- *
+ * 
  * @author Andrey Stepanov aka standy
  */
 public class ServerTemplate {
-    /** Cache. */
-    private static Cache cache;
+	/** Cache. */
+	private static Cache cache;
 
-    /**
-     * Server entry point.
-     *
-     * @param args of type String[]
-     */
-    public static void main(String[] args) {
-	startCacheServer();
+	/**
+	 * Server entry point.
+	 * 
+	 * @param args
+	 *            of type String[]
+	 */
+	public static void main(String[] args) throws Exception {
+		if (args.length > 0) {
+			loadClasses(args[0]);
+		}
 
-	ConsoleUtils.waitForEnter(JavaProcessLauncher.PROCESS_STARTUP_COMPLETED);
+		startCacheServer();
 
-	stopCacheServer();
-    }
+		ConsoleUtils
+				.waitForEnter(JavaProcessLauncher.PROCESS_STARTUP_COMPLETED);
 
-    /**
-     * Starts cache server.
-     */
-    public static void startCacheServer() {
-	cache = new CacheFactory().create();
-    }
+		stopCacheServer();
+	}
 
-    /**
-     * Stops cache server.
-     */
-    public static void stopCacheServer() {
-	cache.close();
-    }
+	private static void loadClasses(String classes) throws Exception {
+		ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
+
+		String[] names = classes.split("\\,");
+		Class<?>[] classArray = new Class<?>[names.length];
+		
+		for(int i = 0; i<names.length; i++) {
+			classArray[i] = classLoader.loadClass(names[i]);
+		}
+		
+		HierarchyRegistry.registerAll(classLoader, classArray);
+	}
+
+	/**
+	 * Starts cache server.
+	 */
+	public static void startCacheServer() {
+		cache = new CacheFactory().create();
+	}
+
+	/**
+	 * Stops cache server.
+	 */
+	public static void stopCacheServer() {
+		cache.close();
+	}
 }

@@ -148,7 +148,7 @@ public class UpdateToolPartitionTest {
 		String[] vmArguments = new String[] { "-Dgemfire.log-level=none" };
 
 		int exitCode = javaProcessLauncher.runAndWaitProcessExitCode(
-			Launcher.class, vmArguments, new String[] { "update", "-l",
+			"", Launcher.class, vmArguments, new String[] { "update", "-l",
 				propertiesHelper.getStringProperty("locators"), "-s",
 				"localhost[41514],localhost[41515]", "-r", REGION_DATA1 });
 
@@ -169,9 +169,9 @@ public class UpdateToolPartitionTest {
 
 		int exitCode = javaProcessLauncher
 			.runAndWaitProcessExitCode(
+				"",
 				Launcher.class,
-				vmArguments,
-				new String[] { "update", "-l",
+				vmArguments, new String[] { "update", "-l",
 					propertiesHelper.getStringProperty("locators"), "-s",
 					"localhost[41514],localhost[41515]", "-r", REGION_DATA1,
 					"-c" });
@@ -192,7 +192,7 @@ public class UpdateToolPartitionTest {
 		String[] vmArguments = new String[] { "-Dgemfire.log-level=none" };
 
 		int exitCode = javaProcessLauncher.runAndWaitProcessExitCode(
-			Launcher.class, vmArguments, new String[] { "update", "-l",
+			"", Launcher.class, vmArguments, new String[] { "update", "-l",
 				propertiesHelper.getStringProperty("locators"), "-s",
 				"localhost[41514],localhost[41515]", "-r",
 				REGION_DATA1 + "," + REGION_DATA2 });
@@ -217,7 +217,7 @@ public class UpdateToolPartitionTest {
 		String[] vmArguments = new String[] { "-Dgemfire.log-level=none" };
 
 		int exitCode = javaProcessLauncher.runAndWaitProcessExitCode(
-			Launcher.class, vmArguments, new String[] { "update", "-l",
+			"", Launcher.class, vmArguments, new String[] { "update", "-l",
 				propertiesHelper.getStringProperty("locators"), "-s",
 				"localhost[41514],localhost[41515]", "-a" });
 
@@ -254,7 +254,7 @@ public class UpdateToolPartitionTest {
 		String[] vmArguments = new String[] { "-Dgemfire.log-level=none" };
 
 		int exitCode = javaProcessLauncher.runAndWaitProcessExitCode(
-			Launcher.class, vmArguments, new String[] {
+			"", Launcher.class, vmArguments, new String[] {
 				"update",
 				"-l",
 				propertiesHelper.getStringProperty("locators"),
@@ -294,7 +294,7 @@ public class UpdateToolPartitionTest {
 		String[] vmArguments = new String[] { "-Dgemfire.log-level=none" };
 
 		int exitCode = javaProcessLauncher.runAndWaitProcessExitCode(
-			Launcher.class, vmArguments, new String[] { "update", "-l",
+			"", Launcher.class, vmArguments, new String[] { "update", "-l",
 				propertiesHelper.getStringProperty("locators"), "-r",
 				REGION_DATA1 });
 
@@ -304,14 +304,14 @@ public class UpdateToolPartitionTest {
 	private static void startCacheServers() throws IOException, InterruptedException {
 		cacheServer1 = javaProcessLauncher
 			.runWithConfirmation(
+				"",
 				ServerTemplate.class,
-				new String[] { "-DgemfirePropertyFile=updateToolPartitionServerProperties41514.properties" },
-				null);
+				new String[] { "-DgemfirePropertyFile=updateToolPartitionServerProperties41514.properties" }, null);
 		cacheServer2 = javaProcessLauncher
 			.runWithConfirmation(
+				"",
 				ServerTemplate.class,
-				new String[] { "-DgemfirePropertyFile=updateToolPartitionServerProperties41515.properties" },
-				null);
+				new String[] { "-DgemfirePropertyFile=updateToolPartitionServerProperties41515.properties" }, null);
 	}
 
 	private static void stopCacheServers() throws IOException, InterruptedException {
